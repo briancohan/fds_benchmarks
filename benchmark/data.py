@@ -84,6 +84,10 @@ def parse_excel(file: str) -> pd.DataFrame:
     data = parse_cpu(data)
     data = parse_ram(data)
     data = data.reset_index().rename(columns={'index': 'Student'})
+
+    for col in ['Student', 'RAM', 'cores', 'logical']:
+        data[col] = pd.Categorical(data[col])
+
     return data
 
 
@@ -106,6 +110,8 @@ def grid_data(df: pd.DataFrame) -> pd.DataFrame:
 
     _df = _df.rename(columns={' HD': 'HD time', ' Wall': 'Wall time'})
 
+    _df['resolution'] = pd.Categorical(_df['resolution'])
+
     return _df.merge(df[KEEP], on='Student')
 
 
@@ -116,5 +122,7 @@ def omp_data(df: pd.DataFrame) -> pd.DataFrame:
     _df['OMP'] = [i[1] for i in _df.variable.str.split()]
     _df['OMP'] = pd.to_numeric(_df['OMP'])
     _df = _df.drop(columns=['variable'])
+
+    _df['OMP'] = pd.Categorical(_df['OMP'])
 
     return _df.merge(df[KEEP], on='Student')
