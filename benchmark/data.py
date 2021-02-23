@@ -93,7 +93,9 @@ def grid_data(df: pd.DataFrame) -> pd.DataFrame:
 
     parts = _df.variable.str.split('-', expand=True)
     parts.columns = ['resolution', 'component']
-    parts['resolution'] = [i[0] for i in parts.resolution.str.split()]
+    parts['resolution'] = pd.to_numeric(
+        [i[0] for i in parts.resolution.str.split()]
+    )
     _df = _df.join(parts)
 
     _df = _df.pivot(
@@ -102,14 +104,17 @@ def grid_data(df: pd.DataFrame) -> pd.DataFrame:
         values='value'
     ).reset_index()
 
+    _df = _df.rename(columns={' HD': 'HD time', ' Wall': 'Wall time'})
+
     return _df.merge(df[KEEP], on='Student')
 
 
 def omp_data(df: pd.DataFrame) -> pd.DataFrame:
     """OMP modeling data suitable for plotting."""
-    _df = df[OMP].melt(id_vars='Student')
+    _df = df[OMP].melt(id_vars='Student', value_name='Wall time')
 
     _df['OMP'] = [i[1] for i in _df.variable.str.split()]
+    _df['OMP'] = pd.to_numeric(_df['OMP'])
     _df = _df.drop(columns=['variable'])
 
     return _df.merge(df[KEEP], on='Student')
