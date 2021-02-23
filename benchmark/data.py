@@ -10,14 +10,14 @@ LOGICAL = re.compile(r'\d+(?=\sLogical)', re.IGNORECASE)
 WS_GRID = 'Grid_Size'
 WS_OMP = 'Multiple_Meshes'
 
-
-ID_VARS = ['Remarks', 'RAM', 'chipset', 'speed', 'cores', 'logical']
-GRID = ID_VARS + [
+GRID = [
+    'Student',
     '20 cm - HD', '20 cm - Wall',
     '10 cm - HD', '10 cm - Wall',
     '5 cm - HD', '5 cm - Wall',
 ]
-OMP = ID_VARS + ['OMP 1', 'OMP 2', 'OMP 3', 'OMP 4']
+OMP = ['Student', 'OMP 1', 'OMP 2', 'OMP 3', 'OMP 4']
+KEEP = ['Student', 'Remarks', 'RAM', 'chipset', 'speed', 'cores', 'logical']
 
 
 def search(pattern, text):
@@ -83,16 +83,24 @@ def parse_excel(file: str) -> pd.DataFrame:
     data = remove_names(data)
     data = parse_cpu(data)
     data = parse_ram(data)
+    data = data.reset_index().rename(columns={'index': 'Student'})
     return data
 
 
 def grid_data(df: pd.DataFrame) -> pd.DataFrame:
     """Grid resolution modeling data suitable for plotting."""
-    df = df[GRID].melt(id_vars=ID_VARS)
 
-    parts = df.variable.str.split('-', expand=True)
+    _df = df[GRID].melt(id_vars='Student')
+
+    parts = _df.variable.str.split('-', expand=True)
     parts.columns = ['resolution', 'component']
-    df = df.join(parts)
-    df['resolution'] = [i[0] for i in df.resolution.str.split()]
+    parts['resolution'] = [i[0] for i in parts.resolution.str.split()]
+    _df = _df.join(parts)
 
-    return df
+    _df = _df.pivot(
+        index=['Student', 'resolution'],
+        columns='component',
+        values='value'
+    ).reset_index()
+
+    return _df.merge(df[KEEP], on='Student')
