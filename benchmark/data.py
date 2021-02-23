@@ -89,7 +89,6 @@ def parse_excel(file: str) -> pd.DataFrame:
 
 def grid_data(df: pd.DataFrame) -> pd.DataFrame:
     """Grid resolution modeling data suitable for plotting."""
-
     _df = df[GRID].melt(id_vars='Student')
 
     parts = _df.variable.str.split('-', expand=True)
@@ -102,5 +101,15 @@ def grid_data(df: pd.DataFrame) -> pd.DataFrame:
         columns='component',
         values='value'
     ).reset_index()
+
+    return _df.merge(df[KEEP], on='Student')
+
+
+def omp_data(df: pd.DataFrame) -> pd.DataFrame:
+    """OMP modeling data suitable for plotting."""
+    _df = df[OMP].melt(id_vars='Student')
+
+    _df['OMP'] = [i[1] for i in _df.variable.str.split()]
+    _df = _df.drop(columns=['variable'])
 
     return _df.merge(df[KEEP], on='Student')
