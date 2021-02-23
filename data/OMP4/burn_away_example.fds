@@ -1,0 +1,35 @@
+&HEAD CHID='burn_away_example', TITLE='Test BURN_AWAY feature' / 
+
+&MESH IJK=20,20,20 XB=0.0,1.0,0.0,1.0,0.0,1.0 /
+
+&TIME T_END=30. /
+
+&MATL ID                   = 'FOAM'
+      CONDUCTIVITY         = 0.2
+      SPECIFIC_HEAT        = 1.0
+      DENSITY              = 20. /
+
+&SURF ID                   = 'FOAM SLAB'
+      COLOR                = 'TOMATO 3'
+      MATL_ID              = 'FOAM'
+      THICKNESS            = 0.1
+      BURN_AWAY            = .TRUE.
+      HRRPUA               = 4000.
+      EXTERNAL_FLUX        = 50. /      
+
+&REAC FUEL='N-HEPTANE', SOOT_YIELD=0.05 /
+
+&OBST XB=0.30,0.70,0.30,0.70,0.10,0.50, SURF_ID='FOAM SLAB', BULK_DENSITY=20. /
+
+&VENT MB='XMIN', SURF_ID='OPEN' /
+&VENT MB='XMAX', SURF_ID='OPEN' /
+&VENT MB='YMIN', SURF_ID='OPEN' /
+&VENT MB='YMAX', SURF_ID='OPEN' /
+&VENT MB='ZMIN', SURF_ID='OPEN' /
+&VENT MB='ZMAX', SURF_ID='OPEN' /
+
+&BNDF QUANTITY='WALL TEMPERATURE' /
+
+&TAIL /
+
+
