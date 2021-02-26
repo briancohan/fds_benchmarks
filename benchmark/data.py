@@ -85,8 +85,10 @@ def parse_excel(file: str) -> pd.DataFrame:
     data = parse_ram(data)
     data = data.reset_index().rename(columns={'index': 'Student'})
 
-    for col in ['Student', 'RAM', 'cores', 'logical']:
-        data[col] = pd.Categorical(data[col])
+    for col in ['RAM', 'cores', 'logical']:
+        data[col] = data[col].fillna(0)
+
+    data['Remarks'] = data.Remarks.fillna('')
 
     return data
 
