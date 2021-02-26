@@ -9,11 +9,12 @@ The FDS files used are provided in the `data` directory as well.
 
 The `benchmark` directory contains modules to help keep the appearance of the [Jupyter Notebook](https://jupyter.org/) clean.
 
-Click [here](https://mybinder.org/v2/gh/briancohan/fds_benchmarks/HEAD?filepath=Explore.ipynb) to explore the analysis interactively (this may take a few moments to start).
+Click [here](https://nbviewer.jupyter.org/github/briancohan/fds_benchmarks/blob/main/Explore.ipynb) to explore the interactive charts.
+Click [here](https://mybinder.org/v2/gh/briancohan/fds_benchmarks/HEAD?filepath=Explore.ipynb) if you would like to play with the data yourself (this may take a few moments to start).
 
 # Preview of results
 
-Below is a very brief overview of what is laid out in the analysis. Please checkout the [full analysis](https://mybinder.org/v2/gh/briancohan/fds_benchmarks/HEAD?filepath=Explore.ipynb) for more information including interactive charts.
+Below is a very brief overview of what is laid out in the analysis. Please checkout the [full analysis](https://nbviewer.jupyter.org/github/briancohan/fds_benchmarks/blob/main/Explore.ipynb) for more information including interactive charts.
 
 ## Summary of Computational Power
 
