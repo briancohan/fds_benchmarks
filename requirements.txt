@@ -1,5 +1,4 @@
 jupyter==1.0.0
-jupyter_contrib_nbextensions==0.5.1
 kaleido==0.1.0
 openpyxl==3.0.6
 pandas==1.2.2
